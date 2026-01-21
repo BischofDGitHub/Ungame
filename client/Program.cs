@@ -15,16 +15,11 @@ class Program
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-    private const uint WM_CLOSE = 0x0010;
+    [DllImport("user32.dll")]
+    private static extern bool IsWindowVisible(IntPtr hWnd);
 
     private static readonly HttpClient client = new HttpClient();
     private const string SERVER_URL = "http://localhost:3000/test";
-
-    // Blacklist of partial window titles to close
-    private static readonly string[] Blacklist = { "Minecraft", "Fortnite", "Steam", "Discord" };
 
     static async Task Main(string[] args)
     {
@@ -66,16 +61,6 @@ class Program
                 if (!string.IsNullOrWhiteSpace(title))
                 {
                     titles.Add(title);
-
-                    // Check blacklist and close if match found
-                    foreach (var blacklistedItem in Blacklist)
-                    {
-                        if (title.Contains(blacklistedItem, StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine($"Closing prohibited window: {title}");
-                            PostMessage(hWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
-                        }
-                    }
                 }
             }
             return true;
