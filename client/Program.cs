@@ -18,6 +18,9 @@ class Program
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
+    [DllImport("user32.dll")]
+    private static extern bool IsWindowVisible(IntPtr hWnd);
+
     private const uint WM_CLOSE = 0x0010;
 
     private static readonly HttpClient client = new HttpClient();
@@ -46,7 +49,7 @@ class Program
             }
 
             // Wait 30 seconds
-            await Task.Delay(30000);
+            await Task.Delay(10000);
         }
     }
 
