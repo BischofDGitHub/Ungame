@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors()); 
 
 let windowData = [];
+let bannedApplications = [];
 
 app.post("/test", (req, res) => {
     console.log("Received window data:", JSON.stringify(req.body, null, 2));
@@ -18,6 +19,15 @@ app.post("/test", (req, res) => {
     res.sendStatus(200);
 }); 
 
+app.post("/applications", (req, res) => {
+    bannedApplications = req.body.applications;
+    res.sendStatus(200);
+})
+
+app.get("/applications", (req, res) => {
+    res.json(bannedApplications);
+
+})
 
 app.get("/windows", (req, res) => {
     res.json(windowData);

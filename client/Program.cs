@@ -24,10 +24,10 @@ class Program
     private const uint WM_CLOSE = 0x0010;
 
     private static readonly HttpClient client = new HttpClient();
-    private const string SERVER_URL = "http://localhost:3000/test";
+    private const string SERVER_URL = "http://localhost:3000";
 
     // Blacklist of partial window titles to close
-    private static readonly string[] Blacklist = { "Minecraft", "Fortnite", "Steam", "Discord" };
+    private static string[] Blacklist = Array.Empty<string>();
 
     static async Task Main(string[] args)
     {
@@ -35,20 +35,40 @@ class Program
         {
             try
             {
+                // Fetch blacklist from server
+                try 
+                {
+                    var response = await client.GetAsync(SERVER_URL + "/applications");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonResponse = await response.Content.ReadAsStringAsync();
+                        var fetchedBlacklist = JsonSerializer.Deserialize<string[]>(jsonResponse);
+                        if (fetchedBlacklist != null)
+                        {
+                            Blacklist = fetchedBlacklist;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error fetching blacklist: {ex.Message}");
+                }
+
                 var windows = GetOpenWindows();
                 var payload = new { windows };
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 // Send and fire-and-forget (or wait, but we don't care about response much)
-                await client.PostAsync(SERVER_URL, content);
+                await client.PostAsync(SERVER_URL + "/test", content);
+
             }
             catch (Exception)
             {
                 // Silently ignore errors (e.g. server down) to keep the monitor running
             }
 
-            // Wait 30 seconds
+            // Wait 10 seconds
             await Task.Delay(10000);
         }
     }
