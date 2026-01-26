@@ -1,0 +1,29 @@
+{
+    "routes": [
+        {
+            "path": "/test",
+            "method": "POST",
+            "description": "Receives window data"
+        },
+        {
+            "path": "/applications",
+            "method": "POST",
+            "description": "Updates banned applications"
+        },
+        {
+            "path": "/applications",
+            "method": "GET",
+            "description": "Returns banned applications"
+        },
+        {
+            "path": "/windows",
+            "method": "GET",
+            "description": "Returns window data"
+        },
+        {
+            "path": "/",
+            "method": "GET",
+            "description": "Returns accessible routes"
+        }
+    ]
+}

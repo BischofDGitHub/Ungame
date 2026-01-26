@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser"); 
 const cors = require("cors"); 
 require("dotenv").config(); 
- 
+const routes = require("./routes.json");
 const app = express(); 
  
 app.use(bodyParser.urlencoded({ extended: false })); 
@@ -33,5 +33,9 @@ app.get("/windows", (req, res) => {
     res.json(windowData);
 });
 
-const PORT = process.env.PORT || 6767; 
+app.get("/", (req, res) => {
+    res.json(routes);
+});
+
+const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
