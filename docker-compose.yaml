@@ -1,0 +1,13 @@
+services:
+  app-controller:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: app-controller
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
