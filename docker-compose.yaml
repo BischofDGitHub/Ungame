@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: ungame-app-controller
     container_name: app-controller
     ports:
       - "3000:3000"
