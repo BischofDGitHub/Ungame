@@ -1,4 +1,12 @@
 services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ungame
+      POSTGRES_USER: sigmadmin
+      POSTGRES_PASSWORD: 0}eON]b~eM`Qz:w2xITP
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   app-controller:
     build:
       context: ./backend
@@ -10,5 +18,11 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    command: npm run dev
     environment:
       - NODE_ENV=development
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

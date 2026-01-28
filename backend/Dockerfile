@@ -9,5 +9,6 @@ RUN npm ci
 # --omit=dev    installiert devDependencies nicht (package.json)
 # kann aber dazu fuehren, dass build fehlschlagen kann
 COPY . /app/
-CMD ["node", "server.js"]
+RUN npm run build
+CMD ["npm", "start"]
 EXPOSE 3000
