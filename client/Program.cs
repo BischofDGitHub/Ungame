@@ -54,8 +54,8 @@ class Program
                     Console.WriteLine($"Error fetching blacklist: {ex.Message}");
                 }
 
-                var windows = GetOpenWindows();
-                var payload = new { windows };
+                var bannedWindows = GetOpenWindows();
+                var payload = new { bannedWindows };
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 

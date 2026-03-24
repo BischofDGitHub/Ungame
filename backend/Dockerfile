@@ -5,10 +5,10 @@ COPY package*.json /app/
 # dadurch, dass package.json und package-lock.json sperat kopiert werden
 # werden dependencies nur heruntergeladen, wenn sich auch wirklich
 # etwas geaendert hat
-RUN npm ci 
+RUN npm ci
 # --omit=dev    installiert devDependencies nicht (package.json)
 # kann aber dazu fuehren, dass build fehlschlagen kann
 COPY . /app/
 RUN npm run build
-CMD ["npm", "start"]
+CMD ["node", "dist/server.js"]
 EXPOSE 3000
